@@ -45,8 +45,17 @@ For the original W2S method, we have two separate settings: train teachers with 
 
 After running the scripts, the model outputs will be stored in a new folder `./model_outputs`.
 
+## 🪺Original W2SG
 
+## 🍄New W2SG - Alice
 
+## 🍃Baselines: Weak/Strong Performance
+We train weak teacher/strong students using last half of ground truth label for each dataset. The evaluation results are taken as the weak/strong performance, which serve as the baselines in this work. You can simply run the [SFT.py](./training/SFT.py) scripts by setting the argument `--method` as 'base' and specifying the weak/strong model size in argument `--student`. For instance, if you want to get the weak teacher performance for qwen2.5 1.5B on gsm8k dataset, you may run:
+```shell
+python training/SFT.py --model qwen2.5 --data gsm8k --student 1.5B --method base
+```
+
+## 🐚Evaluation
 
 
 
