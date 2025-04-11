@@ -16,7 +16,6 @@ if __name__ == "__main__":
     argparser.add_argument("--student")
     argparser.add_argument("--method")
     argparser.add_argument("--original-wts-type")
-    argparser.add_argument("--base-type")
     argparser.add_argument("--ours-wts-type")
     argparser.add_argument("--model")
 
@@ -26,7 +25,6 @@ if __name__ == "__main__":
     student = args.student
     method = args.method
     original_wts_type = args.original_wts_type
-    base_type = args.base_type
     ours_wts_type = args.ours_wts_type
     model_name = args.model
     
