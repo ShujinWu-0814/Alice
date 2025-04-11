@@ -31,7 +31,7 @@ The generated data will be stored in a new folder `./data/CoT` fter running the 
 
 
 ## 🧚🏻Training Teacher Models with CoT
-Next, we'll use the first half of the dataset to train teacher models so that they are equipped with basic domain knowledge. You'll need to run the scripts in folder [training](./training/SFT.py). 
+Next, we'll use the first half of the dataset to train teacher models so that they are equipped with basic domain knowledge. You'll need to run the scripts in folder [training](./training/SFT.py). (You can change the batch size in [accelerate_config.yaml](./training/accelerate_config.yaml) every time you run the SFT script.)
 For our new method, we need to train teacher models with CoT. You need to specify the following command line argument when running the scripts: 
 1) `--data`: Choose from 'hotpotqa', 'triviaqa', 'gsm8k' and 'arc_challenge'.
 2) `--model`: Choose from 'qwen2.5' and 'llama3'
@@ -58,8 +58,26 @@ Next, for step two, you need to run script [SFT.py](./training/SFT.py) to train 
 python training/SFT.py --model llama3 --data arc_challenge --teacher 1B --student 3B --method original-wts-stage2 --original-wts-type cot
 ```
 
-
 ## 🍄New W2SG - Alice
+Similar to the original W2SG, we have two steps for our method as well. For the first step, we go through the whole sampling and clustering, uncertianty summarization, zero-shot inference, proactive learning process. Each process is implemented in different file. For easier impletation, we prepare a [sh script](./W2SG_pipeline/ours/ours-wts-single.sh) that you can directly use to run those files in correct order automatically. You need to change the arguments `--data`, `--model`, `--teacher`, `--student` to fit different settings. Then you can simply run:
+```shell
+./W2SG_pipeline/ours/ours-wts-single.sh
+```
+
+For step two, it's the same as the one for original W2SG. Just set the argument `--method` to 'ours-wts-stage2' and `--ours-wts-type` to 'singleturn'.
+
+To implement Cascade Alice(teacher model - midlevel model- student model), we recommend you to run normal Alice on setting '1.5B teaches 3B' for qwen2.5 and '1B teaches 3B' for llama3 first (teacher model - midlevel model), so that you can directly reuse the data for the first stage or Cascade Alice here. 
+
+If you already did that, you can directly do the midlevel model training by running the script SFT.py. Here you should set the argument `--ours-wts-type` to 'cascade1', specify the teacher model size in argument `--teacher` and midlevel model size in argument `--student`. 
+
+Next, you should run another [sh script](./W2SG_pipeline/ours/ours-wts-cascade.sh) for the 'midlevel model - student model' process. Similarly, you need to change the corresponding arguments and then you can directly run the sh file. 
+
+Finally, train the student model by running SFT scripts. Here, set the argument `--ours-wts-type` to 'cascade2', specify the midlevel model size in argument `--teacher` and student model size in argument `--student`. In conclusion, you may run the following:
+```shell
+python training/SFT.py --model qwen2.5 --data hotpotqa --teacher 1.5B --student 3B --method ours-wts-stage2 --ours-wts-type cascade1 
+./W2SG_pipeline/ours/ours-wts-cascade.sh
+python training/SFT.py --model qwen2.5 --data hotpotqa --teacher 3B --student 7B --method ours-wts-stage2 --ours-wts-type cascade2
+```
 
 ## 🍃Baselines: Weak/Strong Performance
 We train weak teacher/strong students using last half of ground truth label for each dataset. The evaluation results are taken as the weak/strong performance, which serve as the baselines in this work. You can simply run the [SFT.py](./training/SFT.py) scripts by setting the argument `--method` as 'base' and specifying the weak/strong model size in argument `--student`. For instance, if you want to get the weak teacher performance for qwen2.5 1.5B on gsm8k dataset, you may run:
