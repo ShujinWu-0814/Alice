@@ -20,7 +20,6 @@ argparser = argparse.ArgumentParser()
 argparser.add_argument("--data")
 argparser.add_argument("--method")
 argparser.add_argument("--original-wts-type")
-argparser.add_argument("--base-type")
 argparser.add_argument("--ours-wts-type")
 argparser.add_argument("--teacher")
 argparser.add_argument("--student")
@@ -34,7 +33,6 @@ teacher = args.teacher
 student = args.student
 original_wts_type = args.original_wts_type
 ours_wts_type = args.ours_wts_type
-base_type = args.base_type
 model = args.model
 
 
