@@ -39,7 +39,7 @@ For our new method, we need to train teacher models with CoT. You need to specif
 4) `--method`: You should use 'ours-wts-stage1'
 5) `--our-wts-type`: You should use 'singleturn'
 
-For the original W2S method, we have two separate settings: train teachers with cot or with q-a pair only. For the cot one, it's the same as the stage 1 for our approach, so you just need to follow the instructions above. (You just need to run it once and the output models can be used for both settings). For the qa one, you should follow the instructions above for the first three arguments and made the following changes to the last two:
+For the original W2S method, we have two separate settings: train teachers with CoT or with q-a pair only. For the CoT one, it's the same as the stage 1 for our approach, so you just need to follow the instructions above. (You just need to run it once and the output models can be used for both settings). For the qa one, you should follow the instructions above for the first three arguments and made the following changes to the last two:
 1) `--method`: You should use 'original-wts-stage1'
 2) `--original-wts-type`: You should use 'qa'
 
@@ -47,7 +47,18 @@ After running the scripts, the model outputs will be stored in a new folder `./m
 
 ## 🪺Original W2SG
 There are two steps in the original W2SG pipeline: 1. get the training signals from teacher models, 2. use these signals to train studnet models.
-For step one, you'll run the script [
+For step one, you'll run the script [original_weak_to_strong.py](./W2SG_pipeline/original/original_weak_to_strong.py). You need to specify the arguments `--data`, `--model`, `--teacher` as usual, and additionally, `--type` by choosing from 'qa' and 'cot', which represents different teacher model types that are trained using either CoT or answer only. 
+Example: to get the training signals from teacher model llama3 1B trained using CoT for dataset arc_challenge, you'll run:
+```shell
+python W2SG_pipeline/original/original_weak_to_strong.py --model llama3 --data arc_challenge --teacher 1B --type cot
+```
+
+Next, for step two, you need to run script [SFT.py](./training/SFT.py) to train student models with teacher's signals. You should specify the argument `--method` with 'original-wts-stage2' and choose either 'qa' or 'cot' for argument `--original-wts-type`. For example, following the above step, you may run:
+```shell
+python training/SFT.py --model llama3 --data arc_challenge --teacher 1B --student 3B --method original-wts-stage2 --original-wts-type cot
+```
+
+
 ## 🍄New W2SG - Alice
 
 ## 🍃Baselines: Weak/Strong Performance
