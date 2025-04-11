@@ -20,7 +20,7 @@ Note: We have preprocessed the `ARC_challenge` dataset for easier use later. The
 ## 🐾CoT Generation
 As a step one, we'll need to generate CoT for each q-a pair for datasets that only comes with ground truth answer label: HotpotQA, TriviaQA, and ARC_challenge. The scripts are stored in folder [cot](./cot_generate_filter). You need to specify the following command line argument when running the scripts: 
 1) `--data`: Choose from 'hotpotqa', 'triviaqa', and 'arc_challenge'.
-2) `--model`: Choose from 'qwen2.5' and 'llama 3'
+2) `--model`: Choose from 'qwen2.5' and 'llama3'
 3) `--teacher`: The size of the teacher model. Choose from '1.5B' and '3B' when you specify 'qwen2.5' for model, and choose from '1B' and '3B' when you do 'llama3'.
 
 Here is an example. To generate the CoT reasoning content that matched the ground truth answer for dataset 'TriviaQA' of the teacher model 'Llama3 1B', you should run:
@@ -28,4 +28,27 @@ Here is an example. To generate the CoT reasoning content that matched the groun
 python cot/cot_generate_filter.py --model llama3 --data triviaqa --teacher 1B
 ```
 The generated data will be stored in a new folder `./data/CoT` fter running the scripts. 
+
+
+## 🧚🏻Training Teacher Models with CoT
+Next, we'll use the first half of the dataset to train teacher models so that they are equipped with basic domain knowledge. You'll need to run the scripts in folder [training](./training/SFT.py). 
+For our new method, we need to train teacher models with CoT. You need to specify the following command line argument when running the scripts: 
+1) `--data`: Choose from 'hotpotqa', 'triviaqa', 'gsm8k' and 'arc_challenge'.
+2) `--model`: Choose from 'qwen2.5' and 'llama3'
+3) `--teacher`: The size of the teacher model. Choose from '1.5B' and '3B' when you specify 'qwen2.5' for model, and choose from '1B' and '3B' when you do 'llama3'.
+4) `--method`: You should use 'ours-wts-stage1'
+5) `--our-wts-type`: You should use 'singleturn'
+
+For the original W2S method, we have two separate settings: train teachers with cot or with q-a pair only. For the cot one, it's the same as the stage 1 for our approach, so you just need to follow the instructions above. (You just need to run it once and the output models can be used for both settings). For the qa one, you should follow the instructions above for the first three arguments and made the following changes to the last two:
+1) `--method`: You should use 'original-wts-stage1'
+2) `--original-wts-type`: You should use 'qa'
+
+After running the scripts, the model outputs will be stored in a new folder `./model_outputs`.
+
+
+
+
+
+
+
 
