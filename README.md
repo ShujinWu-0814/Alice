@@ -46,7 +46,8 @@ For the original W2S method, we have two separate settings: train teachers with 
 After running the scripts, the model outputs will be stored in a new folder `./model_outputs`.
 
 ## 🪺Original W2SG
-
+There are two steps in the original W2SG pipeline: 1. get the training signals from teacher models, 2. use these signals to train studnet models.
+For step one, you'll run the script [
 ## 🍄New W2SG - Alice
 
 ## 🍃Baselines: Weak/Strong Performance
