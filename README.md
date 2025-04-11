@@ -33,9 +33,9 @@ The generated data will be stored in a new folder `./data/CoT` fter running the 
 ## 🧚🏻Training Teacher Models with CoT
 Next, we'll use the first half of the dataset to train teacher models so that they are equipped with basic domain knowledge. You'll need to run the scripts in folder [training](./training/SFT.py). (You can change the batch size in [accelerate_config.yaml](./training/accelerate_config.yaml) every time you run the SFT script.)
 For our new method, we need to train teacher models with CoT. You need to specify the following command line argument when running the scripts: 
-1) `--data`: Choose from 'hotpotqa', 'triviaqa', 'gsm8k' and 'arc_challenge'.
+1) `--data`: Choose from 'hotpotqa', 'triviaqa', 'gsm8k' and 'arc_challenge'
 2) `--model`: Choose from 'qwen2.5' and 'llama3'
-3) `--teacher`: The size of the teacher model. Choose from '1.5B' and '3B' when you specify 'qwen2.5' for model, and choose from '1B' and '3B' when you do 'llama3'.
+3) `--teacher`: The size of the teacher model. Choose from '1.5B' and '3B' when you specify 'qwen2.5' for model, and choose from '1B' and '3B' when you do 'llama3'
 4) `--method`: You should use 'ours-wts-stage1'
 5) `--our-wts-type`: You should use 'singleturn'
 
@@ -86,7 +86,14 @@ python training/SFT.py --model qwen2.5 --data gsm8k --student 1.5B --method base
 ```
 
 ## 🐚Evaluation
-
+Now you are finally towards the evaluation stage! Just simply run the script [evaluation.py](./evaluation/evaluate.py) and specify the arguments accordingly. A final summarization of those arguments:
+1) `--data`: Choose from 'hotpotqa', 'triviaqa', 'gsm8k' and 'arc_challenge'.
+2) `--model`: Choose from 'qwen2.5' and 'llama3'
+3) `--teacher`: The size of the teacher model. Choose from '1.5B' and '3B' when you specify 'qwen2.5' for model, and choose from '1B' and '3B' when you do 'llama3'
+4) `--student`: The size of the student model. Choose from '3B' and '7B' when you specify 'qwen2.5' for model, and choose from '3B' and '8B' when you do 'llama3'
+5) `--method`: Choose from 'original-wts' and 'ours-wts'
+6) `--our-wts-type`: Used when you specify 'ours-wts' for method. Choose from 'singleturn' and 'cascade'
+7) `--original-wts-type`: Used when you specify 'original-wts' for method. Choose from 'qa' and 'cot'
 
 
 
