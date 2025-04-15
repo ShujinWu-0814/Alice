@@ -96,5 +96,13 @@ Now you are finally towards the evaluation stage! Just simply run the script [ev
 7) `--original-wts-type`: Used when you specify 'original-wts' for method. Choose from 'qa' and 'cot'
 
 
-
-
+## 🪻Citation
+If you use or extend our work, please consider citing our paper. Thank you for your support! 🥰
+```shell
+@article{wu2025alice,
+  title={Alice: Proactive Learning with Teacher's Demonstrations for Weak-to-Strong Generalization},
+  author={Wu, Shujin and Qian, Cheng and Liang, Paul Pu and Ji, Heng and others},
+  journal={arXiv preprint arXiv:2504.07316},
+  year={2025}
+}
+```
