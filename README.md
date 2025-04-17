@@ -101,7 +101,7 @@ If you use or extend our work, please consider citing our paper. Thank you for y
 ```shell
 @article{wu2025alice,
   title={Alice: Proactive Learning with Teacher's Demonstrations for Weak-to-Strong Generalization},
-  author={Wu, Shujin and Qian, Cheng and Fung Yi R. and Liang, Paul Pu and Ji, Heng},
+  author={Wu, Shujin and Qian, Cheng and Fung, Yi R. and Liang, Paul Pu and Ji, Heng},
   journal={arXiv preprint arXiv:2504.07316},
   year={2025}
 }
